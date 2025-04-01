@@ -1,0 +1,12 @@
+<nav class="navbar">
+  <div class="container">
+    <a routerLink="/home" class="logo">
+      <span>SuperMarket</span>
+    </a>
+    <div class="nav-links">
+      <a routerLink="/home" routerLinkActive="active">Inicio</a>
+      <a routerLink="/providers" routerLinkActive="active">Gestión</a>
+      <a href="#" class="logout-btn" (click)="logout($event)">Cerrar Sesión</a>
+    </div>
+  </div>
+</nav>

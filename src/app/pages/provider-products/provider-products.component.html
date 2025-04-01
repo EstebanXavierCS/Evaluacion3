@@ -1,0 +1,212 @@
+<div class="container mt-4">
+  <div class="row">
+    <!-- Providers Section -->
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-header bg-primary text-white">
+          <h4 class="mb-0">Proveedores</h4>
+        </div>
+        <div class="card-body">
+          <form #providerForm="ngForm" (ngSubmit)="providerForm.form.valid && (selectedProvider.id ? updateProvider() : addProvider())">
+            <div class="mb-3">
+              <input [(ngModel)]="selectedProvider.nombre" name="nombre" #nombre="ngModel" 
+                class="form-control" [class.is-invalid]="nombre.invalid && nombre.touched"
+                placeholder="Nombre" required minlength="3">
+              @if (nombre.invalid && nombre.touched) {
+                <div class="invalid-feedback">
+                  @if (nombre.errors?.['required']) {
+                    <div>El nombre es requerido</div>
+                  }
+                  @if (nombre.errors?.['minlength']) {
+                    <div>El nombre debe tener al menos 3 caracteres</div>
+                  }
+                </div>
+              }
+            </div>
+
+            <div class="mb-3">
+              <input [(ngModel)]="selectedProvider.email" name="email" #email="ngModel" 
+                class="form-control" [class.is-invalid]="email.invalid && email.touched"
+                type="email" placeholder="Email" required email>
+              @if (email.invalid && email.touched) {
+                <div class="invalid-feedback">
+                  @if (email.errors?.['required']) {
+                    <div>El email es requerido</div>
+                  }
+                  @if (email.errors?.['email']) {
+                    <div>Ingrese un email válido</div>
+                  }
+                </div>
+              }
+            </div>
+
+            <div class="mb-3">
+              <input [(ngModel)]="selectedProvider.telefono" name="telefono" #telefono="ngModel"
+                class="form-control" [class.is-invalid]="telefono.invalid && telefono.touched"
+                placeholder="Teléfono" >
+              @if (telefono.invalid && telefono.touched) {
+                <div class="invalid-feedback">
+                  @if (telefono.errors?.['required']) {
+                    <div>El teléfono es requerido</div>
+                  }
+                </div>
+              }
+            </div>
+
+            <div class="mb-3">
+              <input [(ngModel)]="selectedProvider.direccion" name="direccion" #direccion="ngModel"
+                class="form-control" [class.is-invalid]="direccion.invalid && direccion.touched"
+                placeholder="Dirección" required minlength="5">
+              @if (direccion.invalid && direccion.touched) {
+                <div class="invalid-feedback">
+                  @if (direccion.errors?.['required']) {
+                    <div>La dirección es requerida</div>
+                  }
+                  @if (direccion.errors?.['minlength']) {
+                    <div>La dirección debe tener al menos 5 caracteres</div>
+                  }
+                </div>
+              }
+            </div>
+
+            <div class="mb-3 form-check">
+              <input [(ngModel)]="selectedProvider.activo" name="activo" type="checkbox" class="form-check-input" id="activoCheck">
+              <label class="form-check-label" for="activoCheck">Activo</label>
+            </div>
+
+            <div class="d-flex gap-2">
+              <button type="submit" class="btn btn-primary" [disabled]="!providerForm.form.valid">
+                {{ selectedProvider.id ? 'Actualizar' : 'Agregar' }}
+              </button>
+              @if (selectedProvider.id) {
+                <button type="button" class="btn btn-danger" (click)="deleteProvider()">Eliminar</button>
+              }
+            </div>
+          </form>
+
+          <hr>
+
+          <div class="list-group mt-3">
+            @for (provider of providers; track provider.id) {
+              <button 
+                class="list-group-item list-group-item-action"
+                [class.active]="provider.id === selectedProvider.id"
+                (click)="selectProvider(provider)"
+              >
+                <h5 class="mb-1">{{ provider.nombre }}</h5>
+                <small>{{ provider.email }}</small>
+              </button>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Products Section -->
+    @if (selectedProvider.id) {
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-header bg-success text-white">
+            <h4 class="mb-0">Productos de {{ selectedProvider.nombre }}</h4>
+          </div>
+          <div class="card-body">
+            <form #productForm="ngForm" (ngSubmit)="productForm.form.valid && (newProduct.id ? updateProduct(newProduct) : addProduct())">
+              <div class="mb-3">
+                <input [(ngModel)]="newProduct.nombre" name="productNombre" #productNombre="ngModel"
+                  class="form-control" [class.is-invalid]="productNombre.invalid && productNombre.touched"
+                  placeholder="Nombre" required minlength="3">
+                @if (productNombre.invalid && productNombre.touched) {
+                  <div class="invalid-feedback">
+                    @if (productNombre.errors?.['required']) {
+                      <div>El nombre es requerido</div>
+                    }
+                    @if (productNombre.errors?.['minlength']) {
+                      <div>El nombre debe tener al menos 3 caracteres</div>
+                    }
+                  </div>
+                }
+              </div>
+
+              <div class="mb-3">
+                <textarea [(ngModel)]="newProduct.descripcion" name="descripcion" #descripcion="ngModel"
+                  class="form-control" [class.is-invalid]="descripcion.invalid && descripcion.touched"
+                  placeholder="Descripción" rows="3" required minlength="10"></textarea>
+                @if (descripcion.invalid && descripcion.touched) {
+                  <div class="invalid-feedback">
+                    @if (descripcion.errors?.['required']) {
+                      <div>La descripción es requerida</div>
+                    }
+                    @if (descripcion.errors?.['minlength']) {
+                      <div>La descripción debe tener al menos 10 caracteres</div>
+                    }
+                  </div>
+                }
+              </div>
+
+              <div class="mb-3">
+                <input [(ngModel)]="newProduct.precio" name="precio" #precio="ngModel"
+                  class="form-control" [class.is-invalid]="precio.invalid && precio.touched"
+                  type="number" placeholder="Precio" required min="0">
+                @if (precio.invalid && precio.touched) {
+                  <div class="invalid-feedback">
+                    @if (precio.errors?.['required']) {
+                      <div>El precio es requerido</div>
+                    }
+                    @if (precio.errors?.['min']) {
+                      <div>El precio debe ser mayor a 0</div>
+                    }
+                  </div>
+                }
+              </div>
+
+              <div class="mb-3">
+                <input [(ngModel)]="newProduct.cantidad" name="cantidad" #cantidad="ngModel"
+                  class="form-control" [class.is-invalid]="cantidad.invalid && cantidad.touched"
+                  type="number" placeholder="Cantidad" required min="0">
+                @if (cantidad.invalid && cantidad.touched) {
+                  <div class="invalid-feedback">
+                    @if (cantidad.errors?.['required']) {
+                      <div>La cantidad es requerida</div>
+                    }
+                    @if (cantidad.errors?.['min']) {
+                      <div>La cantidad debe ser mayor a 0</div>
+                    }
+                  </div>
+                }
+              </div>
+
+              <button type="submit" class="btn btn-success" [disabled]="!productForm.form.valid">
+                {{ newProduct.id ? 'Actualizar Producto' : 'Agregar Producto' }}
+              </button>
+              @if (newProduct.id) {
+                <button type="button" class="btn btn-secondary ms-2" (click)="cleanProduct()">Cancelar Edición</button>
+              }
+            </form>
+
+            <!-- Products List -->
+            <div class="row mt-4">
+              @for (product of products; track product.id) {
+                <div class="col-md-6 mb-3">
+                  <div class="card h-100">
+                    <div class="card-body">
+                      <h5 class="card-title">{{ product.nombre }}</h5>
+                      <p class="card-text">{{ product.descripcion }}</p>
+                      <div class="product-details">
+                        <p class="mb-1"><strong>Precio:</strong> ${{ product.precio }}</p>
+                        <p class="mb-1"><strong>Cantidad:</strong> {{ product.cantidad }}</p>
+                      </div>
+                      <div class="mt-3">
+                        <button class="btn btn-sm btn-primary me-2" (click)="selectProduct(product)">Editar</button>
+                        <button class="btn btn-sm btn-danger" (click)="deleteProduct(product)">Eliminar</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</div>
