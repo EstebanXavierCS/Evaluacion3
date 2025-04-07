@@ -6,11 +6,12 @@ import { Product } from '../../models/product.model';
 import { ProviderService } from '../../services/provider.service';
 import { ProductService } from '../../services/product.service';
 import { firstValueFrom } from 'rxjs';
+import { NavbarComponent } from '../../components/navbar/navbar.component';
 
 @Component({
   selector: 'app-provider-products',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule,NavbarComponent],
   templateUrl: './provider-products.component.html',
   styleUrl: './provider-products.component.css'
 })

@@ -1,10 +1,11 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { NavbarComponent } from '../../components/navbar/navbar.component';
 
 @Component({
   selector: 'app-home',
-  imports: [],
+  imports: [NavbarComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })

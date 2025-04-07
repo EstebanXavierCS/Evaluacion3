@@ -1,3 +1,4 @@
+<app-navbar></app-navbar>
 <div class="container mt-4">
   <div class="row">
     <!-- Providers Section -->
@@ -93,8 +94,15 @@
                 [class.active]="provider.id === selectedProvider.id"
                 (click)="selectProvider(provider)"
               >
-                <h5 class="mb-1">{{ provider.nombre }}</h5>
-                <small>{{ provider.email }}</small>
+                <div class="d-flex justify-content-between align-items-center">
+                  <div>
+                    <h5 class="mb-1">{{ provider.nombre }}</h5>
+                    <small>{{ provider.email }}</small>
+                  </div>
+                  <span class="badge rounded-pill" [ngClass]="provider.activo ? 'bg-success' : 'bg-secondary'">
+                    {{ provider.activo ? 'Activo' : 'Inactivo' }}
+                  </span>
+                </div>
               </button>
             }
           </div>

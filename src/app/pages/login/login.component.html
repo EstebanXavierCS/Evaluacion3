@@ -1,28 +1,47 @@
-<div style="margin: 20px;">
-    <h1>Iniciar Sesión</h1>
+<div class="d-flex justify-content-center align-items-center vh-100">
+    <div class="card shadow-lg p-5" style="width: 350px; border-radius: 20px; background-color: #f8f9fa;">
+        <h2 class="text-center mb-4">Iniciar Sesión</h2>
 
-    <div class="col-sm-4">
         <form [formGroup]="form" (ngSubmit)="onSubmit()">
-            <div class="form-group">
-                <label>E-Mail:</label>
-                <input type="email" class="form-control" formControlName="email" />
-                @if(form.get('email')?.touched && form.get('email')?.errors){
-                    <div style="color: red;">Error de Validación</div>
+            <div class="mb-3">
+                <label class="form-label fw-semibold">E-Mail:</label>
+                <input type="email" class="form-control" formControlName="email" placeholder="correo@ejemplo.com" />
+
+                @if (form.get('email')?.touched && form.get('email')?.errors) {
+                    <div class="text-danger small mt-1">Error de Validación</div>
                 }
             </div>
 
-            <div class="form-group">
-                <label>Password:</label>
-                <input type="password" class="form-control" formControlName="password" />
-                @if(form.get('password')?.touched && form.get('password')?.errors || this.error){
-                    <div style="color: red;">Error de Validación</div>
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Password:</label>
+                <input type="password" class="form-control form-control-lg" formControlName="password" placeholder="••••••••" />
+
+                @if (form.get('password')?.touched && form.get('password')?.errors) {
+                    <div class="text-danger small mt-1">Error de Validación</div>
+                }
+
+                @if (error) {
+                    <div class="text-danger small mt-1">{{ error }}</div>
                 }
             </div>
-            <p></p>
-            <div>
-                <button type="submit" class="btn btn-primary">Enviar</button>
+            <div class="d-grid">
+                <button type="submit" class="btn btn-primary btn-lg">Enviar</button>
             </div>
         </form>
-    </div>
 
+
+        <div class="d-grid mt-3">
+            <button (click)="onGoogleLogin()" class="btn btn-danger btn-lg d-flex justify-content-center align-items-center">
+                <img src="https://img.icons8.com/color/48/000000/google-logo.png" width="20" class="me-2" /> Iniciar con Google
+            </button>
+        </div>
+
+        <div class="text-center mt-3">
+            <a routerLink="/register" class="text-decoration-none">¿No tienes cuenta? <strong>Regístrate</strong></a>
+        </div>
+
+        <div class="text-center mt-2">
+            <a routerLink="/reset-password" class="text-decoration-none">¿Olvidaste tu contraseña?</a>
+        </div>
+    </div>
 </div>
