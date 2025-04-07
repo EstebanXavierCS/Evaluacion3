@@ -20,6 +20,9 @@ export class ProviderProductsComponent {
   products: any[] = [];
   selectedProvider = new Provider();
   newProduct = new Product();
+  productMessage: string | null = null; 
+  providerMessage: string | null = null;
+
   
   constructor(
     private providerService: ProviderService,
@@ -41,6 +44,23 @@ export class ProviderProductsComponent {
     await this.getProductsByProvider(provider.id);
     this.newProduct = new Product();
     this.newProduct.providerId = provider.id;
+  }
+
+  cleanProvider() {
+    this.selectedProvider = new Provider(); // Restablece el proveedor
+  }
+
+  async submitProvider() {
+    if (this.selectedProvider.nombre && this.selectedProvider.email && this.selectedProvider.direccion) {
+      if (this.selectedProvider.id) {
+        await this.updateProvider();
+        this.providerMessage = 'Proveedor actualizado con éxito';
+      } else {
+        await this.addProvider();
+        this.providerMessage = 'Proveedor agregado con éxito';
+      }
+      setTimeout(() => this.providerMessage = null, 3000);
+    }
   }
 
   async addProvider() {
@@ -85,5 +105,18 @@ export class ProviderProductsComponent {
   cleanProduct() {
     this.newProduct = new Product();
     this.newProduct.providerId = this.selectedProvider.id;
+  }
+
+  async submitProduct() {
+    if (this.newProduct.nombre && this.newProduct.descripcion && this.newProduct.precio && this.newProduct.cantidad) {
+      if (this.newProduct.id) {
+        await this.updateProduct(this.newProduct);
+        this.productMessage = 'Producto actualizado con éxito';
+      } else {
+        await this.addProduct();
+        this.productMessage = 'Producto agregado con éxito';
+      }
+      setTimeout(() => this.productMessage = null, 3000);
+    }
   }
 }
